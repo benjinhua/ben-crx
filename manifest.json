@@ -9,7 +9,11 @@
           "<all_urls>"
         ],
         "js":[
-          "index.js"
+          "index.js",
+          "jquery.min.js"
+        ],
+        "css": [
+          "index.css"
         ]
       }
     ],
