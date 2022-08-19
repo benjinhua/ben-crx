@@ -72,3 +72,14 @@ chrome插件
     /** 调试页，background 不出现于用户视窗内的。 **/
     /** 在扩展工具页面，检查视图进行调试 (需要勾选__开发者模式__选项)**/
   }
+
+## popup popup是点击browser_action或者page_action图标时打开的一个小窗口网页，焦点离开网页就立即关闭，一般用来做一些临时性的交互。
+{
+	"browser_action":
+	{
+		"default_icon": "img/icon.png",
+		// 图标悬停时的标题，可选
+		"default_title": "这是一个示例Chrome插件",
+		"default_popup": "popup.html"
+	}
+}
