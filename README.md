@@ -1,5 +1,6 @@
 # ben-crx
 chrome插件
+参考：https://www.cnblogs.com/liuxianan/p/chrome-plugin-develop.html
 
 在网页中额外插入功能性按钮并读取请求信息
 
