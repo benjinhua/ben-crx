@@ -6,11 +6,11 @@
     "content_scripts": [
       {
         "matches": [
-          "<all_urls>"
+          "https://ones.cn/project/#/team/*/project/*/component/*/view/*/task/*"
         ],
         "js":[
-          "index.js",
-          "jquery.min.js"
+          "jquery.min.js",
+          "index.js"   
         ],
         "css": [
           "index.css"
