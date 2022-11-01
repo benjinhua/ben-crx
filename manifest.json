@@ -3,19 +3,29 @@
     "description" : "Ones 需求 与 Phoenix 产品需求池同步",
     "version": "1.0",
     "manifest_version": 2,
+    "devtools_page": "devtools.html",
     "content_scripts": [
       {
         "matches": [
-          "https://ones.cn/project/#/team/*/project/*/component/*/view/*/task/*"
+          "https://ones.cn/project/#/team/*/project/*/component/*/view/*/task/*",
+          "https://ydones.yunzhangfang.com/project/#/team/*/project/*/component/*/view/*/task/*"
         ],
         "js":[
           "jquery.min.js",
-          "index.js"   
+          "index.js"  
         ],
         "css": [
           "index.css"
-        ]
+        ],
+        "run_at": "document_start"
       }
+    ],
+	"permissions":
+    [
+      "webRequest", 
+      "webRequestBlocking",
+      "http://*/*", 
+      "https://*/*"
     ],
     "background" : {
         "scripts" : ["./background.js"]
