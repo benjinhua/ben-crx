@@ -1,6 +1,6 @@
 //content.js   manifest匹配地址的页面在刷新时会直接执行这里的代码
 $(function() {
-    $("body").append("<div class='phoenix-async-success' style='position: absolute;top: 10%;left: 50%;color: #000;background: #f6ffed;/* display: none; */border: 1px solid #b7eb8f;padding: 8px 15px;'>同步成功</div>")
+    $("body").append("<div class='phoenix-async-success' style='position: absolute;top: 10%;left: 50%;color: #000;background: #f6ffed;display: none;border: 1px solid #b7eb8f;padding: 8px 15px;'>同步成功</div>")
     $("body").delegate('.phoenix-async-demand', 'click', function() {
         chrome.runtime.sendMessage(chrome.runtime.id, {//当页面刷新时发送到bg
             fromContent: 'sendAjax',
