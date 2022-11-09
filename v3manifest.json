@@ -1,5 +1,5 @@
 {
-    "manifest_version":2,
+    "manifest_version":3,
 	"name":"同步需求",
 	"version":"1.0.0",
 	"description":"Ones 需求 与 Phoenix 产品需求池同步",
@@ -13,6 +13,12 @@
 	"background": {
 		"scripts": ["/js/jquery.js","background.js"]
 	},
+	"host_permissions": [
+		"*://*/*",
+		"http://172.23.50.102:8002/",
+		"https://ones.cn/project/*",
+		"https://ydones.yunzhangfang.com/project/*"
+	],
 	"permissions":[
 		"storage", 
 		"cookies" ,
