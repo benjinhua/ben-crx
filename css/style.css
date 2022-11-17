@@ -1,0 +1,35 @@
+.phoenix-async-demand {
+    border: none;
+    background: #5ca5ea;
+    color: #fff;
+    padding: 2px 12px;
+    border-radius: 3px;
+    margin-left: 8px;
+}
+
+.phoenix-wrap span {
+    margin-left: 8px;
+    color: #000;
+}
+
+.phoenix-async-success {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    color: #000;
+    background: #f6ffed;
+    display: none;
+    border: 1px solid #b7eb8f;
+    padding: 8px 15px;
+}
+
+.phoenix-async-fail {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    color: #fff;
+    background: #f33;
+    display: none;
+    border: 1px solid #b7eb8f;
+    padding: 8px 15px;
+}
