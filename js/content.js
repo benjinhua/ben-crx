@@ -96,6 +96,7 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
         console.log('已同步列表index', hasAsyncIndexList);
         console.log('添加同步按钮');
         $('.phoenix-async-demand').remove();
+        $('.phoenix-wrap').remove();
         setTimeout(() => {
             $('.task-item-one-row-margin-left').each((index,item) => {
                 if(hasAsyncIndexList.includes(index)) {

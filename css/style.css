@@ -52,7 +52,15 @@
 
 .phoenix-wrap span {
     margin-left: 8px;
-    color: #000;
+    display: inline-block;
+    color: #24b47e;
+    background: #0000;
+    width: 48px;
+    height: 20px;
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid #24b47e;
+    border-radius: 10px;
 }
 
 .phoenix-async-success {
