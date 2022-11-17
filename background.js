@@ -27,17 +27,19 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
                         console.log('接收content的回调', res);
                     });
                 });
-            }
+            },
+            
         })
     }
     if(senderRequest.fromContent && senderRequest.fromContent === 'sendAjax') {
-        var projectUuid = senderRequest.projectUuid;
-        // var taskData = taskList[senderRequest.index]
+        const { projectUuid, productKanbanId, taskData, index } = senderRequest;
+        console.log('发送同步请求', senderRequest);
         $.ajax({
             type: 'POST',
             url: 'http://172.23.50.102:8002/product/ones/syncTask',
             data: JSON.stringify({
                 projectUuid,
+                productKanbanId,
                 taskData
             }),
             dataType: 'json',
@@ -49,11 +51,30 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
                         active: true, 
                         currentWindow: true
                     }, function(tabs){
-                        chrome.tabs.sendMessage(tabs[0].id, {isAsyncSuccess: true}, function(res) {
-                            console.log('接收content的回调', res);
+                        chrome.tabs.sendMessage(tabs[0].id, {isAsyncSuccess: true, index}, function(response) {
+                            console.log('接收content的回调', response);
+                        });
+                    });
+                } else {
+                    chrome.tabs.query({
+                        active: true, 
+                        currentWindow: true
+                    }, function(tabs){
+                        chrome.tabs.sendMessage(tabs[0].id, {isAsyncFail: true, index}, function(response) {
+                            console.log('接收content的回调', response);
                         });
                     });
                 }
+            },
+            error: function(err) {
+                chrome.tabs.query({
+                    active: true, 
+                    currentWindow: true
+                }, function(tabs){
+                    chrome.tabs.sendMessage(tabs[0].id, {isAsyncFail: true, index}, function(response) {
+                        console.log('接收content的回调', response);
+                    });
+                });
             }
         })
     }

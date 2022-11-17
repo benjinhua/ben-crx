@@ -13,16 +13,18 @@ var taskList = [], hasAsyncList = [], hasAsyncIndexList = [];
 
 $(function() {
     $("body").append("<div class='phoenix-async-success' style='position: absolute;top: 10%;left: 50%;color: #000;background: #f6ffed;display: none;border: 1px solid #b7eb8f;padding: 8px 15px;'>同步成功</div>")
+    $("body").append("<div class='phoenix-async-fail' style='position: absolute;top: 10%;left: 50%;color: #fff;background: #f33;display: none;border: 1px solid #b7eb8f;padding: 8px 15px;'>同步失败</div>")
     $("body").delegate('.phoenix-async-demand', 'click', function() {
         var index = $(this).attr('data-index');
+        console.log('发送同步请求');
         chrome.runtime.sendMessage(chrome.runtime.id, {
             fromContent: 'sendAjax',
             projectUuid: $($('.project-name')[0]).text(),
+            productKanbanId: "10016",
+            taskData: taskList[index],
             index
         });
-        $($('.task-item-one-row-margin-left')[index]).find('.phoenix-wrap').remove();
-        $($('.task-item-one-row-margin-left')[index]).append("<div class='phoenix-wrap'><span style='margin-left: 8px;color: #000;'>已同步</span></div>");
-    })
+   })
 })
 
 // 监听来自注入脚本的postMessage
@@ -72,9 +74,18 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
     }
     if(senderRequest.isAsyncSuccess) {
         console.log('同步成功');
+        $($('.task-item-one-row-margin-left')[senderRequest.index]).find('.phoenix-wrap').remove();
+        $($('.task-item-one-row-margin-left')[senderRequest.index]).append("<div class='phoenix-wrap'><span style='margin-left: 8px;color: #000;'>已同步</span></div>");
         $('.phoenix-async-success').show();
         setTimeout(() => {
             $('.phoenix-async-success').hide();
+        },1000)
+    }
+    if(senderRequest.isAsyncFail) {
+        console.log('同步失败');
+        $('.phoenix-async-fail').show();
+        setTimeout(() => {
+            $('.phoenix-async-fail').hide();
         },1000)
     }
 });
