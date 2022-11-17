@@ -21,20 +21,41 @@ var productKanbanList = [
 var productKanbanId = '';
 // 需求列表taskList，已同步列表hasAsyncList，已同步列表索引hasAsyncIndexList
 var taskList = [], hasAsyncList = [], hasAsyncIndexList = [];
+var selectIndex = 0;
 
 $(function() {
     $("body").append("<div class='phoenix-async-success'>同步成功</div>")
     $("body").append("<div class='phoenix-async-fail'>同步失败</div>")
+    $("body").append("<div class='phoenix-mask'><div class='phoenix-productKanbanListBox'><div class='phoenix-productKanbanListBox-title'>请选择同步的需求看板</div></div></div>")
+    productKanbanList.forEach(item => {
+        $('.phoenix-productKanbanListBox').append(`<button class='phoenix-async-demand-item' data-value='${item.value}'>${item.label}</button>`)
+    })
     $("body").delegate('.phoenix-async-demand', 'click', function() {
-        var index = $(this).attr('data-index');
+        // 打开选择看板
+        selectIndex = $(this).attr('data-index');
+        $('.phoenix-mask').show();
+   })
+
+   $("body").delegate('.phoenix-mask', 'click', function() {
+       // 遮罩层关闭
+        $('.phoenix-mask').hide();
+    })
+
+    $("body").delegate('.phoenix-productKanbanListBox', 'click', function(e) {
+        e.stopPropagation();
+    })
+
+    $("body").delegate('.phoenix-async-demand-item', 'click', function() {
+        var productKanbanId = $(this).attr('data-value');
         console.log('发送同步请求');
         chrome.runtime.sendMessage(chrome.runtime.id, {
             fromContent: 'sendAjax',
             projectUuid: $($('.project-name')[0]).text(),
-            productKanbanId: "10000",
-            taskData: taskList[index],
-            index
+            productKanbanId,
+            taskData: taskList[selectIndex],
+            index: selectIndex
         });
+        $('.phoenix-mask').hide();
    })
 })
 
