@@ -3,7 +3,6 @@
 	"name":"同步需求",
 	"version":"1.0.0",
 	"description":"Ones 需求 与 Phoenix 产品需求池同步",
-	"devtools_page": "html/devtools.html",
 	"icons":{
 		"16":"img/logo.png",
 		"32":"img/logo.png",
@@ -13,7 +12,11 @@
 	"background": {
 		"scripts": ["/js/jquery.js","background.js"]
 	},
+	"host_permissions": [ "*://*/*" ],
 	"permissions":[
+		"<all_urls>",
+		"https://ones.cn/project/*",
+        "tabs",
 		"storage", 
 		"cookies" ,
 		"webRequest"
@@ -21,10 +24,10 @@
 	"content_scripts":[{
 		"js":["/js/jquery.js","/js/content.js"],
 		"matches":[
-			"*://*/*",
 			"https://ones.cn/project/*",
 			"https://ydones.yunzhangfang.com/project/*"
 		],
-		"run_at":"document_end"
-	}]
+		"run_at":"document_start"
+	}],
+	"web_accessible_resources": ["js/injected.js"]
 }

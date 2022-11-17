@@ -1,32 +1,11 @@
 //background.js
-console.log('background.js');
-
-var taskList = [];
-// 已同步列表，已同步列表index
-var hasAsyncList = [], hasAsyncIndexList = [];
-
-function sendMessageToContentScript(message, callback)
-{
-	chrome.tabs.query({active: true, currentWindow: true}, function(tabs)
-	{
-		chrome.tabs.sendMessage(tabs[0].id, message, function(response)
-		{
-			if(callback) callback(response);
-		});
-	});
-}
-sendMessageToContentScript({cmd:'test', value:'你好，我是popup！'}, function(response)
-{
-	console.log('来自content的回复：'+response);
-});
-
+// 已同步列表taskUuid list
+var hasAsyncList = [];
 
 chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendResponse) {
-    if(senderRequest.fromDevTools && senderRequest.fromDevTools=='request' && senderRequest.content){
-        // 监听到请求列表响应正文
-        taskList = JSON.parse(senderRequest.content).data.buckets[0].tasks;
+    if(senderRequest.fromContent && senderRequest.fromContent=='getAsyncList'){
         hasAsyncList = [];
-        // 获取已同步需求
+        // 获取已同步的需求
         $.ajax({
             type: 'GET',
             url: 'http://172.23.50.102:8002/product/ones/taskList',
@@ -40,16 +19,11 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
                         })
                     }
                 }
-                taskList.forEach((item,index) => {
-                    if(hasAsyncList.includes(item.uuid)) {
-                        hasAsyncIndexList.push(index);
-                    }
-                })
                 chrome.tabs.query({
                     active: true, 
                     currentWindow: true
                 }, function(tabs){
-                    chrome.tabs.sendMessage(tabs[0].id, {isGetData: taskList.length > 0, hasAsyncIndexList}, function(res) {
+                    chrome.tabs.sendMessage(tabs[0].id, { getAsyncListSuccess: true, hasAsyncList }, function(res) {
                         console.log('接收content的回调', res);
                     });
                 });
@@ -58,7 +32,7 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
     }
     if(senderRequest.fromContent && senderRequest.fromContent === 'sendAjax') {
         var projectUuid = senderRequest.projectUuid;
-        var taskData = taskList[senderRequest.index]
+        // var taskData = taskList[senderRequest.index]
         $.ajax({
             type: 'POST',
             url: 'http://172.23.50.102:8002/product/ones/syncTask',
