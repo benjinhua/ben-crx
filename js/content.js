@@ -87,6 +87,7 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
 
     if(senderRequest.getAsyncListSuccess) {
         console.log('获取到已同步列表', senderRequest.hasAsyncList);
+        hasAsyncIndexList = []; // 重置index list
         hasAsyncList = senderRequest.hasAsyncList;
         taskList.forEach((item,index) => {
             if(hasAsyncList.includes(item.uuid)) {
