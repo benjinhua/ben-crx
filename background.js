@@ -1,9 +1,6 @@
 //background.js
 console.log('background.js');
 
-$.get('http://172.23.50.102:8002/product/ones/taskList?projectUuid=LFsDxNc6UznjG7S7',(res) => {
-    console.log(res);
-})
 var taskList = [];
 // 已同步列表，已同步列表index
 var hasAsyncList = [], hasAsyncIndexList = [];
