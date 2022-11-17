@@ -60,7 +60,7 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
                         active: true, 
                         currentWindow: true
                     }, function(tabs){
-                        chrome.tabs.sendMessage(tabs[0].id, {isAsyncFail: true, index}, function(response) {
+                        chrome.tabs.sendMessage(tabs[0].id, {isAsyncFail: true, index, msg: res.msg}, function(response) {
                             console.log('接收content的回调', response);
                         });
                     });

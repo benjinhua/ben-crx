@@ -83,9 +83,10 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
     }
     if(senderRequest.isAsyncFail) {
         console.log('同步失败');
+        $('.phoenix-async-fail').text(senderRequest.msg);
         $('.phoenix-async-fail').show();
         setTimeout(() => {
             $('.phoenix-async-fail').hide();
-        },1000)
+        },3000)
     }
 });
