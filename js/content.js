@@ -20,7 +20,7 @@ $(function() {
         chrome.runtime.sendMessage(chrome.runtime.id, {
             fromContent: 'sendAjax',
             projectUuid: $($('.project-name')[0]).text(),
-            productKanbanId: "10016",
+            productKanbanId: "10000",
             taskData: taskList[index],
             index
         });
@@ -55,11 +55,13 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
 
     if(senderRequest.getAsyncListSuccess) {
         console.log('获取到已同步列表', senderRequest.hasAsyncList);
+        hasAsyncList = senderRequest.hasAsyncList;
         taskList.forEach((item,index) => {
             if(hasAsyncList.includes(item.uuid)) {
                 hasAsyncIndexList.push(index);
             }
         })
+        console.log('已同步列表index', hasAsyncIndexList);
         console.log('添加同步按钮');
         $('.phoenix-async-demand').remove();
         setTimeout(() => {
