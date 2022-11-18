@@ -23,6 +23,8 @@ var productKanbanId = '';
 var taskList = [], hasAsyncList = [], hasAsyncIndexList = [];
 var selectIndex = 0;
 
+var timer = null; // 定时器
+
 $(function() {
     $("body").append("<div class='phoenix-async-success'>同步成功</div>")
     $("body").append("<div class='phoenix-async-fail'>同步失败</div>")
@@ -129,16 +131,18 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
             $($('.summary-column')[senderRequest.index]).find('.phoenix-wrap').remove();
             $($('.summary-column')[senderRequest.index]).append("<div class='phoenix-wrap'><span>已同步</span></div>");
         }
+        clearTimeout(timer);
         $('.phoenix-async-success').show();
-        setTimeout(() => {
+        timer = setTimeout(() => {
             $('.phoenix-async-success').hide();
-        },1000)
+        },3000)
     }
     if(senderRequest.isAsyncFail) {
         console.log('同步失败');
+        clearTimeout(timer);
         $('.phoenix-async-fail').text(senderRequest.msg);
         $('.phoenix-async-fail').show();
-        setTimeout(() => {
+        timer = setTimeout(() => {
             $('.phoenix-async-fail').hide();
         },3000)
     }
