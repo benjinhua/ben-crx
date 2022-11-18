@@ -98,7 +98,8 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
         console.log('添加同步按钮');
         $('.phoenix-async-demand').remove();
         $('.phoenix-wrap').remove();
-        setTimeout(() => {
+        if($('.task-item-one-row-margin-left').length > 0) {
+            // 窄详情 布局
             $('.task-item-one-row-margin-left').each((index,item) => {
                 if(hasAsyncIndexList.includes(index)) {
                     $(item).append("<div class='phoenix-wrap'><span>已同步</span></div>")
@@ -106,12 +107,28 @@ chrome.runtime.onMessage.addListener(function(senderRequest, sender, sendRespons
                     $(item).append("<div class='phoenix-wrap'><button data-index='"+index+"' class='phoenix-async-demand'>同步</button><div>")
                 }
             });
-        },1000)
+        } else {
+            // 宽详情 布局
+            $('.summary-column').each((index,item) => {
+                if(hasAsyncIndexList.includes(index)) {
+                    $(item).append("<div class='phoenix-wrap'><span>已同步</span></div>")
+                } else {
+                    $(item).append("<div class='phoenix-wrap'><button data-index='"+index+"' class='phoenix-async-demand'>同步</button><div>")
+                }
+            });
+        }
     }
     if(senderRequest.isAsyncSuccess) {
         console.log('同步成功');
-        $($('.task-item-one-row-margin-left')[senderRequest.index]).find('.phoenix-wrap').remove();
-        $($('.task-item-one-row-margin-left')[senderRequest.index]).append("<div class='phoenix-wrap'><span>已同步</span></div>");
+        if($('.task-item-one-row-margin-left').length > 0) {
+            // 窄详情 布局
+            $($('.task-item-one-row-margin-left')[senderRequest.index]).find('.phoenix-wrap').remove();
+            $($('.task-item-one-row-margin-left')[senderRequest.index]).append("<div class='phoenix-wrap'><span>已同步</span></div>");
+        } else {
+            // 宽详情 布局
+            $($('.summary-column')[senderRequest.index]).find('.phoenix-wrap').remove();
+            $($('.summary-column')[senderRequest.index]).append("<div class='phoenix-wrap'><span>已同步</span></div>");
+        }
         $('.phoenix-async-success').show();
         setTimeout(() => {
             $('.phoenix-async-success').hide();
